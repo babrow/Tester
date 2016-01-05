@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Tester</string>
+
+    <string name="hello_caption">Choose appropriate test from navigation bar</string>
+    <string name="test_start">Start test</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
+    <string name="nav_test1_tapping">Test1</string>
+    <string name="test1_tapping_description">Test1</string>
+    <string name="nav_test2_traffic">Test2</string>
+    <string name="test2_traffic_description">Test2</string>
+    <string name="nav_test3">Test3</string>
+    <string name="test3_description">Test3</string>
+    <string name="nav_test4">Test4</string>
+    <string name="test4_description">Test4</string>
+    <string name="nav_communicate">Communicate</string>
+    <string name="title_activity_test1">Test1Activity</string>
+    <string name="title_activity_test2">Test2Activity</string>
+</resources>
