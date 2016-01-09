@@ -21,4 +21,10 @@
     <string name="nav_communicate">Communicate</string>
     <string name="title_activity_test1">Test1Activity</string>
     <string name="title_activity_test2">Test2Activity</string>
+
+    <string name="test2_timer_caption">60</string>
+    <string name="test2_go_btn_caption">GO</string>
+    <string name="test2_stop_btn_caption">STOP</string>
+    <string name="test2_results_dlg_title">The test results are</string>
+    <string name="test2_results_dlg_memo">The test results are</string>
 </resources>
