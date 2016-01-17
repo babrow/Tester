@@ -12,4 +12,19 @@
     tools:context="com.babrow.tester.Test1Activity"
     tools:showIn="@layout/activity_test1">
 
+    <TextView
+        android:id="@+id/time_display_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/test1_timer_caption"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <com.babrow.tester.customview.DrawingView
+        android:id="@+id/tapping_zone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/time_display_box" />
+
 </RelativeLayout>
