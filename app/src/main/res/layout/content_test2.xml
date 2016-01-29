@@ -28,7 +28,7 @@
         android:layout_below="@+id/time_display_box"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
-        android:src="@android:drawable/ic_lock_silent_mode" />
+        android:src="@drawable/traffic_yellow" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -43,21 +43,22 @@
         android:paddingRight="4.0dip"
         android:paddingTop="5.0dip">
 
-        <Button
-            android:id="@+id/go_btn"
-            android:layout_width="0.0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.0"
-            android:onClick="drivingAction"
-            android:text="@string/test2_go_btn_caption" />
 
         <Button
             android:id="@+id/stop_btn"
             android:layout_width="0.0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:onClick="drivingAction"
-            android:text="@string/test2_stop_btn_caption" />
+            android:background="@drawable/traffic_stop"
+            android:onClick="drivingAction" />
+
+        <Button
+            android:id="@+id/go_btn"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:background="@drawable/traffic_go"
+            android:onClick="drivingAction" />
 
     </LinearLayout>
 </RelativeLayout>

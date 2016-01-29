@@ -152,7 +152,7 @@ public class Test2Activity extends AppCompatActivity {
     }
 
     private enum TRAFFIC_LIGHT {
-        RED(R.drawable.red), YELLOW(R.drawable.yellow), GREEN(R.drawable.green);
+        RED(R.drawable.traffic_green), YELLOW(R.drawable.traffic_yellow), GREEN(R.drawable.traffic_green);
 
         private static final List<TRAFFIC_LIGHT> VALUES =
                 Collections.unmodifiableList(Arrays.asList(values()));
