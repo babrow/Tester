@@ -145,7 +145,7 @@ public class Test2Activity extends AppCompatActivity {
             str += "Среднее время реакции: " + react;
         }
         new AlertDialog.Builder(Test2Activity.this)
-                .setTitle("Результаты теста")
+                .setTitle(R.string.test_results_title)
                 .setMessage(str)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();

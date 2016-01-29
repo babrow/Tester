@@ -22,7 +22,6 @@ public class Test1Activity extends AppCompatActivity {
     private TextView countdownDisplay;
     private DrawingView tappingZone;
     private CountDownTimer timer;
-    private DialogInterface.OnClickListener dlgActions;
     private List<Integer> results;
 
     @Override
@@ -36,9 +35,16 @@ public class Test1Activity extends AppCompatActivity {
 
         countdownDisplay = (TextView) findViewById(R.id.time_display_box);
         tappingZone = (DrawingView) findViewById(R.id.tapping_zone);
-        initDlgActions();
+        tappingZone.setZOrderOnTop(true);
 
         startTimer();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        timer.cancel();
     }
 
     private void startTimer() {
@@ -73,23 +79,13 @@ public class Test1Activity extends AppCompatActivity {
     }
 
     private void showResults() {
-        new AlertDialog.Builder(Test1Activity.this)
-                .setTitle(R.string.test_results_title)
-                .setMessage(results.toString())
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .setPositiveButton(R.string.test_results_save, dlgActions)
-                .setNegativeButton(R.string.test_results_rerun, dlgActions)
-                .show();
-    }
-
-    private void initDlgActions() {
-        dlgActions = new DialogInterface.OnClickListener() {
+        DialogInterface.OnClickListener dlgActions = new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case Dialog.BUTTON_POSITIVE:
-                        startTimer();
+                        finish();
                         break;
                     case Dialog.BUTTON_NEGATIVE:
                         startTimer();
@@ -97,7 +93,15 @@ public class Test1Activity extends AppCompatActivity {
                 }
             }
         };
+
+        String resStr = results.toString().replaceAll("\\[|\\]", "");
+        resStr = String.format(getResources().getString(R.string.test1_results_description), resStr);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.test_results_title)
+                .setMessage(resStr)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton(R.string.test_results_save, dlgActions)
+                .setNegativeButton(R.string.test_results_rerun, dlgActions)
+                .show();
     }
-
-
 }

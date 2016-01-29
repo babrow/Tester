@@ -19,8 +19,8 @@
     <string name="nav_test4">Test4</string>
     <string name="test4_description">Test4</string>
     <string name="nav_communicate">Communicate</string>
-    <string name="title_activity_test1">Test1Activity</string>
-    <string name="title_activity_test2">Test2Activity</string>
+    <string name="title_activity_test1">Таппинг тест</string>
+    <string name="title_activity_test2">Светофор тест</string>
 
     <string name="test1_timer_caption">30</string>
 
@@ -31,6 +31,9 @@
     <string name="test2_results_dlg_memo">The test results are</string>
 
     <string name="test_results_title">Результаты теста</string>
-    <string name="test_results_save">Сохранить результаты теста</string>
-    <string name="test_results_rerun">Пройти тест заново</string>
+    <string name="test_results_wrong">Результаты теста не достоверны</string>
+    <string name="test_results_save">Сохранить</string>
+    <string name="test_results_rerun">Заново</string>
+
+    <string name="test1_results_description">Количество нажатий: %s</string>
 </resources>
