@@ -44,20 +44,20 @@
         android:paddingTop="5.0dip">
 
 
-        <Button
+        <ImageButton
             android:id="@+id/stop_btn"
             android:layout_width="0.0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:background="@drawable/traffic_stop"
+            android:src="@drawable/traffic_stop"
             android:onClick="drivingAction" />
 
-        <Button
+        <ImageButton
             android:id="@+id/go_btn"
             android:layout_width="0.0dip"
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
-            android:background="@drawable/traffic_go"
+            android:src="@drawable/traffic_go"
             android:onClick="drivingAction" />
 
     </LinearLayout>

@@ -4,20 +4,12 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_test1_tapping"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/nav_test1_tapping" />
         <item
             android:id="@+id/nav_test2_traffic"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/nav_test2_traffic" />
-        <item
-            android:id="@+id/nav_test3"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/nav_test3" />
-        <item
-            android:id="@+id/nav_test4"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/nav_test4" />
+            android:title="@string/nav_test2_traffic" />
     </group>
 
     <item android:title="@string/nav_communicate">
@@ -25,11 +17,11 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="@string/nav_communicate_share" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="@string/nav_communicate_send" />
         </menu>
     </item>
 

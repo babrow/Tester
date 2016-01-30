@@ -1,34 +1,28 @@
 <resources>
-    <string name="app_name">Tester</string>
+    <string name="app_name">Система тестирования</string>
+    <string name="app_mail">tester@gmail.com</string>
 
-    <string name="hello_caption">Choose appropriate test from navigation bar</string>
-    <string name="test_start">Start test</string>
+    <string name="hello_caption">Выберите нужный тест из списка</string>
+    <string name="test_start">Начать тест</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Открыть меню</string>
+    <string name="navigation_drawer_close">Закрыть меню</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
 
+    <string name="nav_test1_tapping">Теппинг тест</string>
+    <string name="test1_tapping_description">Положите руку ладонью вниз, удерживая основание ладони на ровной поверхности. По звуковому сигналу Вы должны начать максимально быстро касаться пальцем экрана. В течение 30 секунд необходимо совершить как можно больше касаний. Касания выполняются указательным пальцем, другие пальцы остаются на ровной поверхности. Секундомер начинает отсчёт с первым касанием. Когда время истекает, касания более не принимаются. Тестирование заканчивается, когда пройдёт указанное время с начала теста</string>
+    <string name="nav_test2_traffic">Светофор тест</string>
+    <string name="test2_traffic_description">Перед вами светофор. Когда на светофоре загорится жёлтый свет – ждите, вам ничего делать не надо; когда на светофоре загорится зелёный свет – едем, как можно быстрее нажимайте на кнопку ГАЗ; когда на светофоре загорится красный свет – останавливаемся, как можно быстрее нажимайте на кнопку ТОРМОЗ</string>
+    <string name="nav_communicate">Обратная связь</string>
+    <string name="nav_communicate_share">Поделиться</string>
+    <string name="nav_communicate_send">Отправить письмо</string>
 
-    <string name="nav_test1_tapping">Test1</string>
-    <string name="test1_tapping_description">Test1</string>
-    <string name="nav_test2_traffic">Test2</string>
-    <string name="test2_traffic_description">Test2</string>
-    <string name="nav_test3">Test3</string>
-    <string name="test3_description">Test3</string>
-    <string name="nav_test4">Test4</string>
-    <string name="test4_description">Test4</string>
-    <string name="nav_communicate">Communicate</string>
-    <string name="title_activity_test1">Таппинг тест</string>
+    <string name="title_activity_test1">Теппинг тест</string>
     <string name="title_activity_test2">Светофор тест</string>
 
     <string name="test1_timer_caption">30</string>
-
     <string name="test2_timer_caption">60</string>
-    <string name="test2_go_btn_caption">GO</string>
-    <string name="test2_stop_btn_caption">STOP</string>
-    <string name="test2_results_dlg_title">The test results are</string>
-    <string name="test2_results_dlg_memo">The test results are</string>
 
     <string name="test_results_title">Результаты теста</string>
     <string name="test_results_wrong">Результаты теста не достоверны</string>
@@ -36,4 +30,5 @@
     <string name="test_results_rerun">Заново</string>
 
     <string name="test1_results_description">Количество нажатий: %s</string>
+    <string name="test2_results_description">Процент ошибок: %1$d. Средняя реакция: %2$d</string>
 </resources>

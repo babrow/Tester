@@ -1,10 +1,10 @@
 package com.babrow.tester;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -42,20 +42,19 @@ public class Test2Activity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         countdownDisplay = (TextView) findViewById(R.id.time_display_box);
         trafficImg = (ImageView) findViewById(R.id.traffic_img);
 
-        startTimer(MILLIS_PER_SECOND * SECONDS_TO_COUNTDOWN, TICK_INTERVAL, TICK_INTERVAL_LIMIT);
+        startTimer();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        timer.cancel();
     }
 
     public void drivingAction(View view) {
@@ -74,6 +73,10 @@ public class Test2Activity extends AppCompatActivity {
             }
         }
         addResult(isError, lastActionTime - lastTickTime);
+    }
+
+    private void startTimer() {
+        startTimer(MILLIS_PER_SECOND * SECONDS_TO_COUNTDOWN, TICK_INTERVAL, TICK_INTERVAL_LIMIT);
     }
 
     private void startTimer(final int countdownMillis, final int tickInterval, final int tickIntervalLimit) {
@@ -134,25 +137,43 @@ public class Test2Activity extends AppCompatActivity {
         int errorsCnt = testResults.get(true) != null ? testResults.get(true).size() : 0;
         int posCnt = testResults.get(false) != null ? testResults.get(false).size() : 0;
 
-        String str = "Результаты теста не достоверны";
+        String resStr = getResources().getString(R.string.test_results_wrong);
         if (posCnt != 0) {
             long react = 0;
             for (Test2Result result : testResults.get(false)) {
                 react += result.getReaction();
             }
             react = react / posCnt;
-            str = "Процент ошибок: " + errorsCnt * 100/(errorsCnt + posCnt);
-            str += "Среднее время реакции: " + react;
+            errorsCnt = errorsCnt * 100 / (errorsCnt + posCnt);
+
+            resStr = String.format(getResources().getString(R.string.test2_results_description), errorsCnt, react);
         }
-        new AlertDialog.Builder(Test2Activity.this)
+
+        DialogInterface.OnClickListener dlgActions = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case Dialog.BUTTON_POSITIVE:
+                        finish();
+                        break;
+                    case Dialog.BUTTON_NEGATIVE:
+                        startTimer();
+                        break;
+                }
+            }
+        };
+
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.test_results_title)
-                .setMessage(str)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage(resStr)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .setPositiveButton(R.string.test_results_save, dlgActions)
+                .setNegativeButton(R.string.test_results_rerun, dlgActions)
                 .show();
     }
 
     private enum TRAFFIC_LIGHT {
-        RED(R.drawable.traffic_green), YELLOW(R.drawable.traffic_yellow), GREEN(R.drawable.traffic_green);
+        RED(R.drawable.traffic_red), YELLOW(R.drawable.traffic_yellow), GREEN(R.drawable.traffic_green);
 
         private static final List<TRAFFIC_LIGHT> VALUES =
                 Collections.unmodifiableList(Arrays.asList(values()));
