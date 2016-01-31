@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class Test2Activity extends AppCompatActivity {
     private static final int MILLIS_PER_SECOND = 1000;
-    private static final int SECONDS_TO_COUNTDOWN = 10;
+    private static final int SECONDS_TO_COUNTDOWN = 60;
     private static final int TICK_INTERVAL = MILLIS_PER_SECOND / 2;
     private static final int TICK_INTERVAL_LIMIT = MILLIS_PER_SECOND * 2;
 
