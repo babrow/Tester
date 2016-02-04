@@ -17,6 +17,8 @@
     <string name="nav_communicate">Обратная связь</string>
     <string name="nav_communicate_share">Поделиться</string>
     <string name="nav_communicate_send">Отправить письмо</string>
+    <string name="nav_account">Пользователь</string>
+    <string name="nav_account_logout">Выход</string>
 
     <string name="title_activity_test1">Теппинг тест</string>
     <string name="title_activity_test2">Светофор тест</string>

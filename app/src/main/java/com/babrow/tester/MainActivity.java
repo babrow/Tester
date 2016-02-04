@@ -14,10 +14,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.babrow.tester.model.Account;
+import com.babrow.tester.utils.http.Settings;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private int selectedMenuId = -1;
+
+    Account account = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,14 @@ public class MainActivity extends AppCompatActivity
             selectedMenuId = savedInstanceState.getInt("selectedMenuId", -1);
         }
         setTestDescription();
+        setUserDescription();
+    }
+
+    private void setUserDescription() {
+        Intent intent = getIntent();
+        account = (Account) intent.getSerializableExtra(Settings.ACCOUNT);
+        MenuItem item = (MenuItem) findViewById(R.id.nav_account);
+        item.setTitle(account.getEmail());
     }
 
     @Override
@@ -124,6 +137,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         if (intent != null) {
+            intent.putExtra(Settings.ACCOUNT, account);
             startActivity(intent);
         }
     }

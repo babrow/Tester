@@ -7,6 +7,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -33,7 +34,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.babrow.tester.model.Account;
-import com.babrow.tester.model.GenericRequest;
+import com.babrow.tester.utils.http.GenericRequest;
+import com.babrow.tester.utils.http.RequestSender;
+import com.babrow.tester.utils.http.Settings;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +54,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    private static final String URL = "http://192.168.1.33:9000/Api/login";
-
     private RequestQueue reqQueue = null;
-
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -64,6 +65,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        checkUserLogged();
+
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -157,13 +161,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
-            cancel = true;
-        }
-
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -192,11 +189,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
     }
 
     /**
@@ -289,8 +281,27 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+    private void checkUserLogged() {
+        SharedPreferences prefs = getSharedPreferences(Settings.SETTINGS_FILE, MODE_PRIVATE);
+        String accountStr = prefs.getString(Settings.ACCOUNT, null);
+        if (accountStr != null) {
+            Account account = new Gson().fromJson(accountStr, Account.class);
+            acceptUser(account);
+        }
+    }
+
     public void acceptUser(Account account) {
+        acceptUser(account, false);
+    }
+
+    public void acceptUser(Account account, boolean saveSetting) {
+        if (saveSetting) {
+            SharedPreferences.Editor editor = getSharedPreferences(Settings.SETTINGS_FILE, MODE_PRIVATE).edit();
+            editor.putString(Settings.ACCOUNT, new Gson().toJson(account));
+            editor.commit();
+        }
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.putExtra(Settings.ACCOUNT, account);
         startActivity(intent);
     }
 
@@ -301,7 +312,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void checkUser(String email, String password) {
-        GenericRequest<Account> req = new GenericRequest<>(Request.Method.POST, URL, Account.class, new Account(email, password),
+        GenericRequest<Account> req = new GenericRequest<>(Request.Method.POST, RequestSender.LOGIN_URL, Account.class, new Account(email, password),
                 new Response.Listener<Account>() {
                     @Override
                     public void onResponse(Account account) {

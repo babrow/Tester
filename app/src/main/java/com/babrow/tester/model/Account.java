@@ -1,9 +1,11 @@
 package com.babrow.tester.model;
 
+import java.io.Serializable;
+
 /**
  * Created by babrow on 31.01.2016.
  */
-public class Account {
+public class Account implements Serializable {
     private long id;
     private String email;
     private String password;

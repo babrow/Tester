@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-import com.babrow.tester.customview.DrawingView;
+import com.babrow.tester.view.DrawingView;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.babrow.tester.model;
+package com.babrow.tester.utils.http;
 
 /**
  * Created by babrow on 31.01.2016.
@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GenericRequest<T> extends JsonRequest<T> {
-
     private final Gson gson = new Gson();
     private final Class<T> clazz;
     private final Map<String, String> headers;

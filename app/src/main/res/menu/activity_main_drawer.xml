@@ -25,4 +25,15 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/nav_account"
+        android:title="@string/nav_account">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:icon="@android:drawable/ic_secure"
+                android:title="@string/nav_communicate_send" />
+        </menu>
+    </item>
+
 </menu>
