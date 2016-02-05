@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity
             selectedMenuId = savedInstanceState.getInt("selectedMenuId", -1);
         }
         setTestDescription();
-        setUserDescription();
+        setUser();
     }
 
-    private void setUserDescription() {
+    private void setUser() {
         Intent intent = getIntent();
         account = (Account) intent.getSerializableExtra(Settings.ACCOUNT);
         MenuItem item = (MenuItem) findViewById(R.id.nav_account);

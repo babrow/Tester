@@ -3,16 +3,29 @@ package com.babrow.tester;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.babrow.tester.model.Account;
+import com.babrow.tester.utils.http.GenericRequest;
+import com.babrow.tester.utils.http.RequestSender;
+import com.babrow.tester.utils.http.Settings;
 import com.babrow.tester.view.DrawingView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Test1Activity extends AppCompatActivity {
     private static final int MILLIS_PER_SECOND = 1000;
@@ -23,6 +36,9 @@ public class Test1Activity extends AppCompatActivity {
     private DrawingView tappingZone;
     private CountDownTimer timer;
     private List<Integer> results;
+
+    private RequestQueue reqQueue;
+    Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +52,11 @@ public class Test1Activity extends AppCompatActivity {
         countdownDisplay = (TextView) findViewById(R.id.time_display_box);
         tappingZone = (DrawingView) findViewById(R.id.tapping_zone);
         tappingZone.setZOrderOnTop(true);
+
+        reqQueue = Volley.newRequestQueue(this);
+
+        Intent intent = getIntent();
+        account = (Account) intent.getSerializableExtra(Settings.ACCOUNT);
 
         startTimer();
     }
@@ -85,6 +106,7 @@ public class Test1Activity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case Dialog.BUTTON_POSITIVE:
+                        saveResults();
                         finish();
                         break;
                     case Dialog.BUTTON_NEGATIVE:
@@ -103,5 +125,29 @@ public class Test1Activity extends AppCompatActivity {
                 .setPositiveButton(R.string.test_results_save, dlgActions)
                 .setNegativeButton(R.string.test_results_rerun, dlgActions)
                 .show();
+    }
+
+    public void saveResults() {
+        Map<String, String> data = new HashMap<>();
+        data.put("testId", String.valueOf(1));
+        data.put("accountId,", String.valueOf(account.getId()));
+        for (int i = 0; i < results.size(); i++) {
+            data.put(String.format(getResources().getString(R.string.test1_results_save), i), String.valueOf(results.get(i)));
+        }
+        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, RequestSender.SAVE_RESULT_URL, String.class, data,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String answer) {
+
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        reqQueue.add(req);
     }
 }

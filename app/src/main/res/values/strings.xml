@@ -32,6 +32,7 @@
     <string name="test_results_rerun">Заново</string>
 
     <string name="test1_results_description">Количество нажатий: %s</string>
+    <string name="test1_results_save">Количество нажатий за %s интервал</string>
     <string name="test2_results_description">Процент ошибок: %1$d. Средняя реакция: %2$d</string>
     <string name="title_activity_login">Введите учетные данные</string>
 
