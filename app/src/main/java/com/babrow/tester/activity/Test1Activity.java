@@ -1,14 +1,12 @@
-package com.babrow.tester;
+package com.babrow.tester.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -16,16 +14,13 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.babrow.tester.R;
 import com.babrow.tester.model.Account;
+import com.babrow.tester.model.TappingResult;
 import com.babrow.tester.utils.http.GenericRequest;
 import com.babrow.tester.utils.http.RequestSender;
 import com.babrow.tester.utils.http.Settings;
-import com.babrow.tester.view.DrawingView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.babrow.tester.view.TappingView;
 
 public class Test1Activity extends AppCompatActivity {
     private static final int MILLIS_PER_SECOND = 1000;
@@ -33,12 +28,12 @@ public class Test1Activity extends AppCompatActivity {
     private static final int SECONDS_RESULTS_INTERVAL = 5;
 
     private TextView countdownDisplay;
-    private DrawingView tappingZone;
+    private TappingView tappingView;
     private CountDownTimer timer;
-    private List<Integer> results;
+    private TappingResult result;
 
     private RequestQueue reqQueue;
-    Account account;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +45,13 @@ public class Test1Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         countdownDisplay = (TextView) findViewById(R.id.time_display_box);
-        tappingZone = (DrawingView) findViewById(R.id.tapping_zone);
-        tappingZone.setZOrderOnTop(true);
+        tappingView = (TappingView) findViewById(R.id.tapping_zone);
+        tappingView.setZOrderOnTop(true);
 
         reqQueue = Volley.newRequestQueue(this);
 
-        Intent intent = getIntent();
-        account = (Account) intent.getSerializableExtra(Settings.ACCOUNT);
+        account = (Account) getIntent().getSerializableExtra(Settings.ACCOUNT);
+        result = new TappingResult(account.getId());
 
         startTimer();
     }
@@ -64,17 +59,15 @@ public class Test1Activity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         timer.cancel();
     }
 
     private void startTimer() {
+        result.flush();
         startTimer(SECONDS_TO_COUNTDOWN * MILLIS_PER_SECOND, MILLIS_PER_SECOND, SECONDS_RESULTS_INTERVAL);
     }
 
     private void startTimer(final int countdownMillis, final int millisTickInterval, final int secondsResultsInterval) {
-        results = new ArrayList<>();
-
         if (timer != null) {
             timer.cancel();
         }
@@ -87,8 +80,8 @@ public class Test1Activity extends AppCompatActivity {
                 countdownDisplay.setText(Long.toString(millisUntilFinished / MILLIS_PER_SECOND));
 
                 if (tickCounter % secondsResultsInterval == 0) {
-                    results.add(tappingZone.getTouchStats());
-                    tappingZone.flushTouchStats();
+                    result.addResult(tappingView.getTouchStats());
+                    tappingView.flushTouchStats();
                 }
             }
 
@@ -116,11 +109,9 @@ public class Test1Activity extends AppCompatActivity {
             }
         };
 
-        String resStr = results.toString().replaceAll("\\[|\\]", "");
-        resStr = String.format(getResources().getString(R.string.test1_results_description), resStr);
         new AlertDialog.Builder(this)
                 .setTitle(R.string.test_results_title)
-                .setMessage(resStr)
+                .setMessage(result.toMessage())
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton(R.string.test_results_save, dlgActions)
                 .setNegativeButton(R.string.test_results_rerun, dlgActions)
@@ -128,13 +119,7 @@ public class Test1Activity extends AppCompatActivity {
     }
 
     public void saveResults() {
-        Map<String, String> data = new HashMap<>();
-        data.put("testId", String.valueOf(1));
-        data.put("accountId,", String.valueOf(account.getId()));
-        for (int i = 0; i < results.size(); i++) {
-            data.put(String.format(getResources().getString(R.string.test1_results_save), i), String.valueOf(results.get(i)));
-        }
-        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, RequestSender.SAVE_RESULT_URL, String.class, data,
+        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, RequestSender.SAVE_RESULT_URL, String.class, result.toParams(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String answer) {

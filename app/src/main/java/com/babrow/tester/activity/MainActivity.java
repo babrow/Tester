@@ -1,6 +1,7 @@
-package com.babrow.tester;
+package com.babrow.tester.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.babrow.tester.R;
 import com.babrow.tester.model.Account;
 import com.babrow.tester.utils.http.Settings;
 
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity
 
     private int selectedMenuId = -1;
 
-    Account account = null;
+    Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +45,12 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState != null) {
             selectedMenuId = savedInstanceState.getInt("selectedMenuId", -1);
         }
-        setTestDescription();
-        setUser();
-    }
 
-    private void setUser() {
-        Intent intent = getIntent();
-        account = (Account) intent.getSerializableExtra(Settings.ACCOUNT);
-        MenuItem item = (MenuItem) findViewById(R.id.nav_account);
+        account = (Account) getIntent().getSerializableExtra(Settings.ACCOUNT);
+        MenuItem item = navigationView.getMenu().findItem(R.id.nav_account);
         item.setTitle(account.getEmail());
+
+        setTestDescription();
     }
 
     @Override
@@ -68,6 +67,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -109,6 +109,12 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_share:
             case R.id.nav_send:
+            case R.id.nav_logout:
+                SharedPreferences.Editor editor = getSharedPreferences(Settings.SETTINGS_FILE, MODE_PRIVATE).edit();
+                editor.remove(Settings.ACCOUNT);
+                editor.commit();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
         }
 
         TextView label = (TextView) findViewById(R.id.main_caption);

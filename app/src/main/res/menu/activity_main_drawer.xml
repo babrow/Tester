@@ -30,9 +30,9 @@
         android:title="@string/nav_account">
         <menu>
             <item
-                android:id="@+id/logout"
+                android:id="@+id/nav_logout"
                 android:icon="@android:drawable/ic_secure"
-                android:title="@string/nav_communicate_send" />
+                android:title="@string/nav_account_logout" />
         </menu>
     </item>
 

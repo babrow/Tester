@@ -14,19 +14,19 @@ import java.util.Random;
 /**
  * Created by babrow on 16.01.2016.
  */
-public class DrawingView extends SurfaceView {
+public class TappingView extends SurfaceView {
 
     private SurfaceHolder surfaceHolder;
     private final static Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final static int canvasColor = Color.WHITE;
     private volatile int touchCounter = 0;
 
-    public DrawingView(Context context) {
+    public TappingView(Context context) {
         super(context);
         init();
     }
 
-    public DrawingView(Context context, AttributeSet attrs) {
+    public TappingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }

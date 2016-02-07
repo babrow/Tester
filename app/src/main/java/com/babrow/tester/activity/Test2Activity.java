@@ -1,4 +1,4 @@
-package com.babrow.tester;
+package com.babrow.tester.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -11,12 +11,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
+import com.babrow.tester.R;
+import com.babrow.tester.model.Account;
+import com.babrow.tester.model.TrafficResult;
+import com.babrow.tester.utils.http.GenericRequest;
+import com.babrow.tester.utils.http.RequestSender;
+import com.babrow.tester.utils.http.Settings;
+
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class Test2Activity extends AppCompatActivity {
@@ -24,6 +33,8 @@ public class Test2Activity extends AppCompatActivity {
     private static final int SECONDS_TO_COUNTDOWN = 60;
     private static final int TICK_INTERVAL = MILLIS_PER_SECOND / 2;
     private static final int TICK_INTERVAL_LIMIT = MILLIS_PER_SECOND * 2;
+
+    private Account account;
 
     private TextView countdownDisplay;
     private ImageView trafficImg;
@@ -33,7 +44,9 @@ public class Test2Activity extends AppCompatActivity {
     private long lastTickTime;
     private long lastActionTime;
 
-    private final Map<Boolean, List<Test2Result>> testResults = new HashMap<>();
+    private TrafficResult result;
+
+    private RequestQueue reqQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +59,11 @@ public class Test2Activity extends AppCompatActivity {
 
         countdownDisplay = (TextView) findViewById(R.id.time_display_box);
         trafficImg = (ImageView) findViewById(R.id.traffic_img);
+
+        account = (Account) getIntent().getSerializableExtra(Settings.ACCOUNT);
+        result = new TrafficResult(account.getId());
+
+        reqQueue = Volley.newRequestQueue(this);
 
         startTimer();
     }
@@ -72,10 +90,11 @@ public class Test2Activity extends AppCompatActivity {
                 break;
             }
         }
-        addResult(isError, lastActionTime - lastTickTime);
+        result.addResult(new TrafficResult.TrafficResultRow(isError, lastActionTime - lastTickTime));
     }
 
     private void startTimer() {
+        result.flush();
         startTimer(MILLIS_PER_SECOND * SECONDS_TO_COUNTDOWN, TICK_INTERVAL, TICK_INTERVAL_LIMIT);
     }
 
@@ -102,7 +121,7 @@ public class Test2Activity extends AppCompatActivity {
                     doChangeLight = true;
                     tickOverallInterval = 0;
                     if (currentLight != TRAFFIC_LIGHT.YELLOW) {
-                        addResult(true, lastActionTime - lastTickTime);
+                        result.addResult(new TrafficResult.TrafficResultRow(true, lastActionTime - lastTickTime));
                     }
                 }
                 if (doChangeLight) {
@@ -124,36 +143,13 @@ public class Test2Activity extends AppCompatActivity {
         }.start();
     }
 
-    private void addResult(boolean isError, long reaction) {
-        List<Test2Result> res = testResults.get(isError);
-        if (res == null) {
-            res = new ArrayList<>();
-            testResults.put(isError, res);
-        }
-        res.add(new Test2Result(isError, reaction));
-    }
-
     private void showResults() {
-        int errorsCnt = testResults.get(true) != null ? testResults.get(true).size() : 0;
-        int posCnt = testResults.get(false) != null ? testResults.get(false).size() : 0;
-
-        String resStr = getResources().getString(R.string.test_results_wrong);
-        if (posCnt != 0) {
-            long react = 0;
-            for (Test2Result result : testResults.get(false)) {
-                react += result.getReaction();
-            }
-            react = react / posCnt;
-            errorsCnt = errorsCnt * 100 / (errorsCnt + posCnt);
-
-            resStr = String.format(getResources().getString(R.string.test2_results_description), errorsCnt, react);
-        }
-
         DialogInterface.OnClickListener dlgActions = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case Dialog.BUTTON_POSITIVE:
+                        saveResults();
                         finish();
                         break;
                     case Dialog.BUTTON_NEGATIVE:
@@ -165,11 +161,29 @@ public class Test2Activity extends AppCompatActivity {
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.test_results_title)
-                .setMessage(resStr)
+                .setMessage(result.toMessage())
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton(R.string.test_results_save, dlgActions)
                 .setNegativeButton(R.string.test_results_rerun, dlgActions)
                 .show();
+    }
+
+    public void saveResults() {
+        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, RequestSender.SAVE_RESULT_URL, String.class, result.toParams(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String answer) {
+
+                    }
+
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        reqQueue.add(req);
     }
 
     private enum TRAFFIC_LIGHT {
@@ -192,24 +206,6 @@ public class Test2Activity extends AppCompatActivity {
 
         public static TRAFFIC_LIGHT getRandomLight() {
             return VALUES.get(RANDOM.nextInt(SIZE));
-        }
-    }
-
-    private static class Test2Result {
-        private boolean isError;
-        private long reaction;
-
-        public Test2Result(boolean isError, long reaction) {
-            this.isError = isError;
-            this.reaction = reaction;
-        }
-
-        public boolean isError() {
-            return isError;
-        }
-
-        public long getReaction() {
-            return reaction;
         }
     }
 }

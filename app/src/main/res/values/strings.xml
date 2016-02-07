@@ -33,19 +33,21 @@
 
     <string name="test1_results_description">Количество нажатий: %s</string>
     <string name="test1_results_save">Количество нажатий за %s интервал</string>
-    <string name="test2_results_description">Процент ошибок: %1$d. Средняя реакция: %2$d</string>
+    <string name="test2_results_save_errors">Процент ошибок</string>
+    <string name="test2_results_save_reaction">Среднее время реакции</string>
+    <string name="test2_results_description">Процент ошибок: %1$s\nСреднее время реакции: %2$s</string>
     <string name="title_activity_login">Введите учетные данные</string>
 
     <string name="error_network">Отсутствует соединение с сервером</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Почтовый адрес</string>
-    <string name="prompt_password">Пароль (опционально)</string>
+    <string name="prompt_password">Пароль</string>
     <string name="action_sign_in">Войти в систему</string>
     <string name="action_sign_in_short">Вход</string>
     <string name="error_invalid_email">Почтовый адрес не верен</string>
     <string name="error_invalid_password">Пароль слишком короткий</string>
-    <string name="error_incorrect_password">Не верное имя пользователя или пароль</string>
+    <string name="error_incorrect_password">Не верный почтовый адрес или пароль</string>
     <string name="error_field_required">Обязательное поле для заполнения</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."

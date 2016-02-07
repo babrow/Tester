@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.babrow.tester.Test1Activity"
+    tools:context=".activity.Test1Activity"
     tools:showIn="@layout/activity_test1">
 
     <TextView
@@ -21,7 +21,7 @@
         android:text="@string/test1_timer_caption"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <com.babrow.tester.view.DrawingView
+    <com.babrow.tester.view.TappingView
         android:id="@+id/tapping_zone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

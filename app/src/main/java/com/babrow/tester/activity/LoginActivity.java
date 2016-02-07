@@ -1,4 +1,4 @@
-package com.babrow.tester;
+package com.babrow.tester.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -33,10 +33,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.babrow.tester.R;
 import com.babrow.tester.model.Account;
 import com.babrow.tester.utils.http.GenericRequest;
 import com.babrow.tester.utils.http.RequestSender;
 import com.babrow.tester.utils.http.Settings;
+import com.babrow.tester.utils.http.Utils;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -312,12 +314,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public void checkUser(String email, String password) {
-        GenericRequest<Account> req = new GenericRequest<>(Request.Method.POST, RequestSender.LOGIN_URL, Account.class, new Account(email, password),
+        String pass = Utils.md5(password);
+        Account acc = new Account(email, pass);
+        GenericRequest<Account> req = new GenericRequest<>(Request.Method.POST, RequestSender.LOGIN_URL, Account.class, acc,
                 new Response.Listener<Account>() {
                     @Override
                     public void onResponse(Account account) {
                         if (account != null) {
-                            acceptUser(account);
+                            acceptUser(account, true);
                         } else {
                             rejectUser(getString(R.string.error_incorrect_password));
                         }
