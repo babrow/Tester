@@ -9,17 +9,19 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.babrow.tester.activity.AcceptsCallback;
+
 import java.util.Random;
 
 /**
  * Created by babrow on 16.01.2016.
  */
 public class TappingView extends SurfaceView {
-
     private SurfaceHolder surfaceHolder;
     private final static Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final static int canvasColor = Color.WHITE;
     private volatile int touchCounter = 0;
+    private boolean disabledTouch = false;
 
     public TappingView(Context context) {
         super(context);
@@ -33,12 +35,18 @@ public class TappingView extends SurfaceView {
 
     private void init() {
         surfaceHolder = getHolder();
-        //surfaceHolder.setFormat(PixelFormat.RGB_565);
         paint.setStyle(Paint.Style.STROKE);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (isDisabledTouch()) {
+            return false;
+        }
+        if (getContext() instanceof AcceptsCallback) {
+            ((AcceptsCallback) getContext()).onMethodCallback();
+        }
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             drawCircle(event.getX(), event.getY());
             addTouch();
@@ -47,14 +55,20 @@ public class TappingView extends SurfaceView {
     }
 
     private void drawCircle(float x, float y) {
+        drawCircle(true, x, y);
+    }
+
+    private void drawCircle(boolean drawCircle, float x, float y) {
         if (surfaceHolder.getSurface().isValid()) {
             Canvas canvas = surfaceHolder.lockCanvas();
 
             canvas.drawColor(canvasColor);
-            TouchCircle circle = TouchCircle.getRandInstance();
-            paint.setColor(circle.getColor());
-            paint.setStrokeWidth(circle.getWidth());
-            canvas.drawCircle(x, y, circle.getRadius(), paint);
+            if (drawCircle) {
+                TouchCircle circle = TouchCircle.getRandInstance();
+                paint.setColor(circle.getColor());
+                paint.setStrokeWidth(circle.getWidth());
+                canvas.drawCircle(x, y, circle.getRadius(), paint);
+            }
 
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
@@ -70,6 +84,15 @@ public class TappingView extends SurfaceView {
 
     public synchronized void flushTouchStats() {
         touchCounter = 0;
+    }
+
+    public boolean isDisabledTouch() {
+        return disabledTouch;
+    }
+
+    public void setDisabledTouch(boolean disableTouch) {
+        this.disabledTouch = disableTouch;
+        drawCircle(false, 0, 0);
     }
 
     private static class TouchCircle {

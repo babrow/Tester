@@ -23,7 +23,7 @@
     <string name="title_activity_test1">Теппинг тест</string>
     <string name="title_activity_test2">Светофор тест</string>
 
-    <string name="test1_timer_caption">30</string>
+    <string name="test1_timer_caption">Нажмите на экран</string>
     <string name="test2_timer_caption">60</string>
 
     <string name="test_results_title">Результаты теста</string>

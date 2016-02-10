@@ -3,12 +3,16 @@ package com.babrow.tester.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,7 +26,9 @@ import com.babrow.tester.utils.http.RequestSender;
 import com.babrow.tester.utils.http.Settings;
 import com.babrow.tester.view.TappingView;
 
-public class Test1Activity extends AppCompatActivity {
+import java.math.BigDecimal;
+
+public class Test1Activity extends AppCompatActivity implements AcceptsCallback {
     private static final int MILLIS_PER_SECOND = 1000;
     private static final int SECONDS_TO_COUNTDOWN = 30;
     private static final int SECONDS_RESULTS_INTERVAL = 5;
@@ -34,6 +40,7 @@ public class Test1Activity extends AppCompatActivity {
 
     private RequestQueue reqQueue;
     private Account account;
+    private boolean isTimerRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,7 @@ public class Test1Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         countdownDisplay = (TextView) findViewById(R.id.time_display_box);
+
         tappingView = (TappingView) findViewById(R.id.tapping_zone);
         tappingView.setZOrderOnTop(true);
 
@@ -52,41 +60,50 @@ public class Test1Activity extends AppCompatActivity {
 
         account = (Account) getIntent().getSerializableExtra(Settings.ACCOUNT);
         result = new TappingResult(account.getId());
-
-        startTimer();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
     }
 
     private void startTimer() {
         result.flush();
+        tappingView.flushTouchStats();
         startTimer(SECONDS_TO_COUNTDOWN * MILLIS_PER_SECOND, MILLIS_PER_SECOND, SECONDS_RESULTS_INTERVAL);
     }
 
     private void startTimer(final int countdownMillis, final int millisTickInterval, final int secondsResultsInterval) {
+        isTimerRunning = true;
+
         if (timer != null) {
             timer.cancel();
         }
-        timer = new CountDownTimer(countdownMillis, millisTickInterval) {
-            private int tickCounter = 0;
+        timer = new CountDownTimer(countdownMillis, 100) {
+            int secondsLeft = 0;
 
             @Override
             public void onTick(long millisUntilFinished) {
-                tickCounter++;
-                countdownDisplay.setText(Long.toString(millisUntilFinished / MILLIS_PER_SECOND));
+                if (Math.round((float) millisUntilFinished / 1000.0f) != secondsLeft) {
+                    secondsLeft = Math.round((float) millisUntilFinished / 1000.0f);
 
-                if (tickCounter % secondsResultsInterval == 0) {
-                    result.addResult(tappingView.getTouchStats());
-                    tappingView.flushTouchStats();
+                    countdownDisplay.setText(String.valueOf(secondsLeft));
+
+                    if (secondsLeft != SECONDS_TO_COUNTDOWN && secondsLeft % secondsResultsInterval == 0) {
+                        Log.d("tick", String.valueOf(secondsLeft));
+                        result.addResult(tappingView.getTouchStats());
+                        tappingView.flushTouchStats();
+                    }
                 }
+
             }
 
             @Override
             public void onFinish() {
+                tappingView.setDisabledTouch(true);
                 showResults();
             }
         }.start();
@@ -94,7 +111,6 @@ public class Test1Activity extends AppCompatActivity {
 
     private void showResults() {
         DialogInterface.OnClickListener dlgActions = new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
@@ -103,7 +119,10 @@ public class Test1Activity extends AppCompatActivity {
                         finish();
                         break;
                     case Dialog.BUTTON_NEGATIVE:
-                        startTimer();
+                        Intent intent = getIntent();
+                        intent.putExtra(Settings.ACCOUNT, account);
+                        finish();
+                        startActivity(intent);
                         break;
                 }
             }
@@ -133,6 +152,14 @@ public class Test1Activity extends AppCompatActivity {
             }
         });
 
+        req.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 10, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         reqQueue.add(req);
+    }
+
+    @Override
+    public void onMethodCallback() {
+        if (!isTimerRunning) {
+            startTimer();
+        }
     }
 }

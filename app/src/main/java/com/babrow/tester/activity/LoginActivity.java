@@ -305,6 +305,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.putExtra(Settings.ACCOUNT, account);
         startActivity(intent);
+        finish();
     }
 
     public void rejectUser(String message) {
