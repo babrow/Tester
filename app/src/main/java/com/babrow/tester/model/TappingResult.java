@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by babrow on 06.02.2016.
  */
-public class TappingResult implements TestResult<Integer> {
+public class TappingResult implements GameResult<Integer> {
     private static final long TEST_ID = 1;
     private List<Integer> data;
     private final long accountId;

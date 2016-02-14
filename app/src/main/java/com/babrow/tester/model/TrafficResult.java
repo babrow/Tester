@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by babrow on 06.02.2016.
  */
-public class TrafficResult implements TestResult<TrafficResult.TrafficResultRow> {
+public class TrafficResult implements GameResult<TrafficResult.TrafficResultRow> {
     private static final long TEST_ID = 2;
     private final long accountId;
     private Map<Boolean, List<TrafficResultRow>> data;

@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * Created by babrow on 06.02.2016.
  */
-public interface TestResult<T> {
+public interface GameResult<T> {
     String TEST_ID_FIELD = "testId";
     String ACCOUNT_ID_FIELD = "accountId";
 

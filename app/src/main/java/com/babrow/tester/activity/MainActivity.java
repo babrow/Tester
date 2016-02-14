@@ -1,7 +1,6 @@
 package com.babrow.tester.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,16 +14,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.babrow.tester.App;
 import com.babrow.tester.R;
-import com.babrow.tester.model.Account;
-import com.babrow.tester.utils.http.Settings;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private int selectedMenuId = -1;
-
-    Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +42,8 @@ public class MainActivity extends AppCompatActivity
             selectedMenuId = savedInstanceState.getInt("selectedMenuId", -1);
         }
 
-        account = (Account) getIntent().getSerializableExtra(Settings.ACCOUNT);
         MenuItem item = navigationView.getMenu().findItem(R.id.nav_account);
-        item.setTitle(account.getEmail());
+        item.setTitle(App.getAccount().getEmail());
 
         setTestDescription();
     }
@@ -110,11 +105,8 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_share:
             case R.id.nav_send:
             case R.id.nav_logout:
-                SharedPreferences.Editor editor = getSharedPreferences(Settings.SETTINGS_FILE, MODE_PRIVATE).edit();
-                editor.remove(Settings.ACCOUNT);
-                editor.commit();
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivity(intent);
+                logout();
+                break;
         }
 
         TextView label = (TextView) findViewById(R.id.main_caption);
@@ -123,6 +115,12 @@ public class MainActivity extends AppCompatActivity
 
         Button button = (Button) findViewById(R.id.test_start);
         button.setVisibility(testDescription != null ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void logout() {
+        App.flushAccount();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -143,7 +141,6 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         if (intent != null) {
-            intent.putExtra(Settings.ACCOUNT, account);
             startActivity(intent);
         }
     }

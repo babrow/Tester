@@ -7,7 +7,6 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -33,13 +32,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.babrow.tester.App;
 import com.babrow.tester.R;
 import com.babrow.tester.model.Account;
 import com.babrow.tester.utils.http.GenericRequest;
 import com.babrow.tester.utils.http.RequestSender;
-import com.babrow.tester.utils.http.Settings;
 import com.babrow.tester.utils.http.Utils;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -284,28 +282,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void checkUserLogged() {
-        SharedPreferences prefs = getSharedPreferences(Settings.SETTINGS_FILE, MODE_PRIVATE);
-        String accountStr = prefs.getString(Settings.ACCOUNT, null);
-        if (accountStr != null) {
-            Account account = new Gson().fromJson(accountStr, Account.class);
-            acceptUser(account);
+        Account account = App.getAccount();
+        if (account != null) {
+            startMainActivity();
         }
+    }
+
+    public void startMainActivity() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     public void acceptUser(Account account) {
-        acceptUser(account, false);
-    }
-
-    public void acceptUser(Account account, boolean saveSetting) {
-        if (saveSetting) {
-            SharedPreferences.Editor editor = getSharedPreferences(Settings.SETTINGS_FILE, MODE_PRIVATE).edit();
-            editor.putString(Settings.ACCOUNT, new Gson().toJson(account));
-            editor.commit();
-        }
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        intent.putExtra(Settings.ACCOUNT, account);
-        startActivity(intent);
-        finish();
+        App.setAccount(account);
+        startMainActivity();
     }
 
     public void rejectUser(String message) {
@@ -322,7 +313,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     @Override
                     public void onResponse(Account account) {
                         if (account != null) {
-                            acceptUser(account, true);
+                            acceptUser(account);
                         } else {
                             rejectUser(getString(R.string.error_incorrect_password));
                         }

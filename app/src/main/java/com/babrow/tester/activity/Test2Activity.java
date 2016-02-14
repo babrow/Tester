@@ -17,12 +17,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
+import com.babrow.tester.App;
 import com.babrow.tester.R;
-import com.babrow.tester.model.Account;
 import com.babrow.tester.model.TrafficResult;
 import com.babrow.tester.utils.http.GenericRequest;
 import com.babrow.tester.utils.http.RequestSender;
-import com.babrow.tester.utils.http.Settings;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,8 +33,6 @@ public class Test2Activity extends AppCompatActivity {
     private static final int SECONDS_TO_COUNTDOWN = 60;
     private static final int TICK_INTERVAL = MILLIS_PER_SECOND / 2;
     private static final int TICK_INTERVAL_LIMIT = MILLIS_PER_SECOND * 2;
-
-    private Account account;
 
     private TextView countdownDisplay;
     private ImageView trafficImg;
@@ -61,8 +58,7 @@ public class Test2Activity extends AppCompatActivity {
         countdownDisplay = (TextView) findViewById(R.id.time_display_box);
         trafficImg = (ImageView) findViewById(R.id.traffic_img);
 
-        account = (Account) getIntent().getSerializableExtra(Settings.ACCOUNT);
-        result = new TrafficResult(account.getId());
+        result = new TrafficResult(App.getAccount().getId());
 
         reqQueue = Volley.newRequestQueue(this);
 
