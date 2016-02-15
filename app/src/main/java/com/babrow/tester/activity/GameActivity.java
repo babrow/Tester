@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -17,16 +19,18 @@ import com.babrow.tester.utils.GameTimer;
 import com.babrow.tester.utils.http.GenericRequest;
 import com.babrow.tester.utils.http.RequestSender;
 
-/**
- * Created by babrow on 14.02.2016.
- */
 public abstract class GameActivity extends AppCompatActivity {
+    protected static final int MILLIS_PER_SECOND = 1000;
+
+    private TextView secondsLeftDisplay;
+
     private GameTimer timer;
-    protected GameResult result;
+
+    private GameResult gameResult;
 
     protected abstract int getLayoutId();
 
-    public abstract GameResult getGameResult();
+    public abstract GameResult getGameResultImpl();
 
     protected abstract void onStartTimer();
 
@@ -43,9 +47,14 @@ public abstract class GameActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        result = getGameResult();
+        secondsLeftDisplay = (TextView) findViewById(R.id.time_display_box);
+
+        gameResult = getGameResultImpl();
     }
 
     public void startTimer(long gameMillis, long tickMillis) {
@@ -59,6 +68,7 @@ public abstract class GameActivity extends AppCompatActivity {
 
             @Override
             public void onSecondHandler(long millisUntilFinished, int secondsLeft) {
+                secondsLeftDisplay.setText(String.valueOf(secondsLeft));
                 GameActivity.this.onSecond(millisUntilFinished, secondsLeft);
             }
 
@@ -68,6 +78,10 @@ public abstract class GameActivity extends AppCompatActivity {
                 showResults();
             }
         };
+    }
+
+    public GameResult getGameResult() {
+        return gameResult;
     }
 
     @Override
@@ -98,7 +112,7 @@ public abstract class GameActivity extends AppCompatActivity {
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.test_results_title)
-                .setMessage(result.toMessage())
+                .setMessage(getGameResult().toMessage())
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton(R.string.test_results_save, dlgActions)
                 .setNegativeButton(R.string.test_results_rerun, dlgActions)
@@ -106,7 +120,7 @@ public abstract class GameActivity extends AppCompatActivity {
     }
 
     public void saveResults() {
-        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, RequestSender.SAVE_RESULT_URL, String.class, result.toParams(),
+        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, RequestSender.SAVE_RESULT_URL, String.class, getGameResult().toParams(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String answer) {

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.babrow.tester.App;
 import com.babrow.tester.R;
+import com.babrow.tester.model.Account;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +44,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         MenuItem item = navigationView.getMenu().findItem(R.id.nav_account);
-        item.setTitle(App.getAccount().getEmail());
+        Account account = App.getAccount();
+        if (account != null) {
+            item.setTitle(account.getEmail());
+        }
 
         setTestDescription();
     }

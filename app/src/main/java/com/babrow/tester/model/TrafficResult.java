@@ -8,17 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by babrow on 06.02.2016.
- */
 public class TrafficResult implements GameResult<TrafficResult.TrafficResultRow> {
     private static final long TEST_ID = 2;
-    private final long accountId;
     private Map<Boolean, List<TrafficResultRow>> data;
 
-    public TrafficResult(long accountId) {
+    public TrafficResult() {
         data = new HashMap<>();
-        this.accountId = accountId;
     }
 
     @Override
@@ -50,7 +45,10 @@ public class TrafficResult implements GameResult<TrafficResult.TrafficResultRow>
     public Map<String, String> toParams() {
         Map<String, String> params = new HashMap<>();
         params.put(TEST_ID_FIELD, String.valueOf(getTestId()));
-        params.put(ACCOUNT_ID_FIELD, String.valueOf(getAccountId()));
+        Account account = App.getAccount();
+        if (account != null) {
+            params.put(ACCOUNT_ID_FIELD, String.valueOf(account.getId()));
+        }
         Map<String, String> results = getResults();
         if (results != null) {
             params.putAll(results);
@@ -72,11 +70,6 @@ public class TrafficResult implements GameResult<TrafficResult.TrafficResultRow>
     @Override
     public long getTestId() {
         return TEST_ID;
-    }
-
-    @Override
-    public long getAccountId() {
-        return accountId;
     }
 
     @Override
