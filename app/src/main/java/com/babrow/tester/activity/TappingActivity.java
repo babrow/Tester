@@ -7,7 +7,7 @@ import com.babrow.tester.model.GameResult;
 import com.babrow.tester.model.TappingResult;
 import com.babrow.tester.view.TappingView;
 
-public class Test1Activity extends GameActivity implements AcceptsCallback {
+public class TappingActivity extends GameActivity implements AcceptsCallback {
     private static final int SECONDS_GAME = 30;
     private static final long MILLIS_TICK_INTERVAL = 100;
     private static final int SECONDS_RESULTS_INTERVAL = 5;
@@ -18,7 +18,7 @@ public class Test1Activity extends GameActivity implements AcceptsCallback {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_test1;
+        return R.layout.activity_tapping;
     }
 
     @Override
@@ -42,11 +42,6 @@ public class Test1Activity extends GameActivity implements AcceptsCallback {
     @Override
     protected void onStartTimer() {
         isTimerRunning = true;
-    }
-
-    @Override
-    protected void onTick(long millisUntilFinished, int secondsLeft) {
-
     }
 
     @Override

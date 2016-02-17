@@ -32,13 +32,21 @@ public abstract class GameActivity extends AppCompatActivity {
 
     public abstract GameResult getGameResultImpl();
 
-    protected abstract void onStartTimer();
+    protected void onStartTimer() {
 
-    protected abstract void onTick(long millisUntilFinished, int secondsLeft);
+    }
 
-    protected abstract void onSecond(long millisUntilFinished, int secondsLeft);
+    protected void onTick(long millisUntilFinished, int secondsLeft) {
 
-    protected abstract void onFinish();
+    }
+
+    protected void onSecond(long millisUntilFinished, int secondsLeft) {
+
+    }
+
+    protected void onFinish() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +86,7 @@ public abstract class GameActivity extends AppCompatActivity {
                 showResults();
             }
         };
+        timer.start();
     }
 
     public GameResult getGameResult() {

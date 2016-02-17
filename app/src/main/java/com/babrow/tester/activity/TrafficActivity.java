@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Test2Activity extends GameActivity {
+public class TrafficActivity extends GameActivity {
     private static final int SECONDS_GAME = 60;
     private static final int MILLIS_TICK_INTERVAL = 500;
     private static final int MILLIS_TICK_INTERVAL_LIMIT = 2000;
@@ -28,7 +28,7 @@ public class Test2Activity extends GameActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_test2;
+        return R.layout.activity_traffic;
     }
 
     @Override
@@ -36,10 +36,6 @@ public class Test2Activity extends GameActivity {
         return new TrafficResult();
     }
 
-    @Override
-    protected void onStartTimer() {
-
-    }
 
     @Override
     public TrafficResult getGameResult() {
@@ -73,16 +69,6 @@ public class Test2Activity extends GameActivity {
             currentLight = tempCurrentLight;
             trafficImg.setImageResource(currentLight.getImageIndex());
         }
-    }
-
-    @Override
-    protected void onSecond(long millisUntilFinished, int secondsLeft) {
-
-    }
-
-    @Override
-    protected void onFinish() {
-
     }
 
     @Override
@@ -126,12 +112,12 @@ public class Test2Activity extends GameActivity {
             this.imageIndex = imageIndex;
         }
 
-        public int getImageIndex() {
-            return imageIndex;
-        }
-
         public static TRAFFIC_LIGHT getRandomLight() {
             return VALUES.get(RANDOM.nextInt(SIZE));
+        }
+
+        public int getImageIndex() {
+            return imageIndex;
         }
     }
 }

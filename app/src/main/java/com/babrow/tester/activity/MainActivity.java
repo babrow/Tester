@@ -138,10 +138,10 @@ public class MainActivity extends AppCompatActivity
         Intent intent = null;
         switch (selectedMenuId) {
             case R.id.nav_test1_tapping:
-                intent = new Intent(this, Test1Activity.class);
+                intent = new Intent(this, TappingActivity.class);
                 break;
             case R.id.nav_test2_traffic:
-                intent = new Intent(this, Test2Activity.class);
+                intent = new Intent(this, TrafficActivity.class);
                 break;
         }
         if (intent != null) {
