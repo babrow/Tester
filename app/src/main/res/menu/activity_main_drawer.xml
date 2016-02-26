@@ -3,13 +3,17 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_test1_tapping"
+            android:id="@+id/nav_tapping"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/nav_test1_tapping" />
+            android:title="@string/nav_tapping" />
         <item
-            android:id="@+id/nav_test2_traffic"
+            android:id="@+id/nav_traffic"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/nav_test2_traffic" />
+            android:title="@string/nav_traffic" />
+        <item
+            android:id="@+id/nav_ram"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/nav_traffic" />
     </group>
 
     <item android:title="@string/nav_communicate">

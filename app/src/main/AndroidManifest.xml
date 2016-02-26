@@ -32,7 +32,7 @@
         <activity
             android:name=".activity.TappingActivity"
             android:configChanges="keyboard|orientation|screenSize"
-            android:label="@string/title_activity_test1"
+            android:label="@string/tapping_title_activity"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -43,7 +43,7 @@
         <activity
             android:name=".activity.TrafficActivity"
             android:configChanges="keyboard|orientation|screenSize"
-            android:label="@string/title_activity_test2"
+            android:label="@string/traffic_title_activity"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -53,7 +53,7 @@
         </activity>
         <activity
             android:name=".activity.RAMActivity"
-            android:label="@string/title_activity_ram"
+            android:label="@string/ram_title_activity"
             android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

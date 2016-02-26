@@ -10,21 +10,27 @@
 
     <string name="action_settings">Настройки</string>
 
-    <string name="nav_test1_tapping">Теппинг тест</string>
-    <string name="test1_tapping_description">Положите руку ладонью вниз, удерживая основание ладони на ровной поверхности. По звуковому сигналу Вы должны начать максимально быстро касаться пальцем экрана. В течение 30 секунд необходимо совершить как можно больше касаний. Касания выполняются указательным пальцем, другие пальцы остаются на ровной поверхности. Секундомер начинает отсчёт с первым касанием. Когда время истекает, касания более не принимаются. Тестирование заканчивается, когда пройдёт указанное время с начала теста</string>
-    <string name="nav_test2_traffic">Светофор тест</string>
-    <string name="test2_traffic_description">Перед вами светофор. Когда на светофоре загорится жёлтый свет – ждите, вам ничего делать не надо; когда на светофоре загорится зелёный свет – едем, как можно быстрее нажимайте на кнопку ГАЗ; когда на светофоре загорится красный свет – останавливаемся, как можно быстрее нажимайте на кнопку ТОРМОЗ</string>
+    <string name="nav_tapping">Теппинг тест</string>
+    <string name="tapping_description">Положите руку ладонью вниз, удерживая основание ладони на ровной поверхности. По звуковому сигналу Вы должны начать максимально быстро касаться пальцем экрана. В течение 30 секунд необходимо совершить как можно больше касаний. Касания выполняются указательным пальцем, другие пальцы остаются на ровной поверхности. Секундомер начинает отсчёт с первым касанием. Когда время истекает, касания более не принимаются. Тестирование заканчивается, когда пройдёт указанное время с начала теста</string>
+    <string name="nav_traffic">Светофор тест</string>
+    <string name="traffic_description">Перед вами светофор. Когда на светофоре загорится жёлтый свет – ждите, вам ничего делать не надо; когда на светофоре загорится зелёный свет – едем, как можно быстрее нажимайте на кнопку ГАЗ; когда на светофоре загорится красный свет – останавливаемся, как можно быстрее нажимайте на кнопку ТОРМОЗ</string>
+    <string name="nav_ram">Оперативка</string>
+    <string name="ram_description">В течение 2 минут Вы должны записать в возрастающем порядке числа, которые видите в таблице. Будьте внимательны, старайтесь не ошибаться!</string>
+
+
     <string name="nav_communicate">Обратная связь</string>
     <string name="nav_communicate_share">Поделиться</string>
     <string name="nav_communicate_send">Отправить письмо</string>
     <string name="nav_account">Пользователь</string>
     <string name="nav_account_logout">Выход</string>
 
-    <string name="title_activity_test1">Теппинг тест</string>
-    <string name="title_activity_test2">Светофор тест</string>
+    <string name="tapping_title_activity">Теппинг тест</string>
+    <string name="traffic_title_activity">Светофор тест</string>
+    <string name="ram_title_activity">Расстановка чисел</string>
 
-    <string name="test1_timer_caption">Нажмите на экран</string>
-    <string name="test2_timer_caption">60</string>
+    <string name="tapping_timer_caption">Нажмите на экран</string>
+    <string name="traffic_timer_caption">60</string>
+    <string name="ram_timer_caption">120</string>
 
     <string name="test_results_title">Результаты теста</string>
     <string name="test_results_wrong">Результаты теста не достоверны</string>
@@ -52,5 +58,4 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_ram">RAMActivity</string>
 </resources>

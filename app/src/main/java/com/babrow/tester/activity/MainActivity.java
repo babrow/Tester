@@ -49,6 +49,14 @@ public class MainActivity extends AppCompatActivity
             item.setTitle(account.getEmail());
         }
 
+        Button startTest = (Button) findViewById(R.id.test_start_btn);
+        startTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                runTest();
+            }
+        });
+
         setTestDescription();
     }
 
@@ -72,7 +80,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
+        // Handle action bar item_ram_number clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
@@ -100,11 +108,14 @@ public class MainActivity extends AppCompatActivity
     private void setTestDescription() {
         String testDescription = null;
         switch (selectedMenuId) {
-            case R.id.nav_test1_tapping:
-                testDescription = getResources().getString(R.string.test1_tapping_description);
+            case R.id.nav_tapping:
+                testDescription = getResources().getString(R.string.tapping_description);
                 break;
-            case R.id.nav_test2_traffic:
-                testDescription = getResources().getString(R.string.test2_traffic_description);
+            case R.id.nav_traffic:
+                testDescription = getResources().getString(R.string.traffic_description);
+                break;
+            case R.id.nav_ram:
+                testDescription = getResources().getString(R.string.ram_description);
                 break;
             case R.id.nav_share:
             case R.id.nav_send:
@@ -117,7 +128,7 @@ public class MainActivity extends AppCompatActivity
         label.setText(testDescription == null ?
                 getResources().getString(R.string.hello_caption) : testDescription);
 
-        Button button = (Button) findViewById(R.id.test_start);
+        Button button = (Button) findViewById(R.id.test_start_btn);
         button.setVisibility(testDescription != null ? View.VISIBLE : View.INVISIBLE);
     }
 
@@ -134,14 +145,17 @@ public class MainActivity extends AppCompatActivity
         savedInstanceState.putInt("selectedMenuId", selectedMenuId);
     }
 
-    public void runTest(View view) {
+    public void runTest() {
         Intent intent = null;
         switch (selectedMenuId) {
-            case R.id.nav_test1_tapping:
+            case R.id.nav_tapping:
                 intent = new Intent(this, TappingActivity.class);
                 break;
-            case R.id.nav_test2_traffic:
+            case R.id.nav_traffic:
                 intent = new Intent(this, TrafficActivity.class);
+                break;
+            case R.id.nav_ram:
+                intent = new Intent(this, RAMActivity.class);
                 break;
         }
         if (intent != null) {

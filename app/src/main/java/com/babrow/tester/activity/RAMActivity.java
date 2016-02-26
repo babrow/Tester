@@ -1,15 +1,24 @@
 package com.babrow.tester.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 
 import com.babrow.tester.R;
+import com.babrow.tester.model.GameResult;
 
-public class RAMActivity extends AppCompatActivity {
+public class RAMActivity extends GameActivity {
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_ram;
+    }
+
+    @Override
+    public GameResult getGameResultImpl() {
+        return null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,15 +27,20 @@ public class RAMActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String[] data = new String[25];
+
+        for (int i = 1; i <= 25; i++) {
+            data[i - 1] = String.valueOf(i);
+        }
+
+        GridView gvMain;
+        ArrayAdapter<String> adapter;
+
+        adapter = new ArrayAdapter<>(this, R.layout.item_ram_number, R.id.number_view, data);
+        gvMain = (GridView) findViewById(R.id.numbers_grid);
+        gvMain.setAdapter(adapter);
     }
 
 }
