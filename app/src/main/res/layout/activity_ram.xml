@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="@string/tapping_timer_caption"
+            android:text="@string/ram_timer_caption"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <GridView
@@ -46,17 +46,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/time_display_box"
+            android:clickable="true"
             android:numColumns="5" />
 
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/entered_numbers"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/numbers_grid"
-            android:layout_toLeftOf="@+id/time_display_box"
-            android:layout_toStartOf="@+id/time_display_box"
-            android:ems="10"
-            android:inputType="phone" />
+            android:layout_marginTop="10dp"
+            android:maxLines="4"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
     </RelativeLayout>
 
 

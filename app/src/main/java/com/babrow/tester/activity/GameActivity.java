@@ -17,7 +17,6 @@ import com.babrow.tester.R;
 import com.babrow.tester.model.GameResult;
 import com.babrow.tester.utils.GameTimer;
 import com.babrow.tester.utils.http.GenericRequest;
-import com.babrow.tester.utils.http.RequestSender;
 
 public abstract class GameActivity extends AppCompatActivity {
     protected static final int MILLIS_PER_SECOND = 1000;
@@ -102,7 +101,19 @@ public abstract class GameActivity extends AppCompatActivity {
         }
     }
 
+    public void stopGame() {
+        if (timer != null) {
+            timer.cancel();
+        }
+        showResults();
+    }
+
     public void showResults() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         DialogInterface.OnClickListener dlgActions = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -123,13 +134,14 @@ public abstract class GameActivity extends AppCompatActivity {
                 .setTitle(R.string.test_results_title)
                 .setMessage(getGameResult().toMessage())
                 .setIcon(android.R.drawable.ic_dialog_info)
+                .setCancelable(false)
                 .setPositiveButton(R.string.test_results_save, dlgActions)
                 .setNegativeButton(R.string.test_results_rerun, dlgActions)
                 .show();
     }
 
     public void saveResults() {
-        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, RequestSender.SAVE_RESULT_URL, String.class, getGameResult().toParams(),
+        GenericRequest<String> req = new GenericRequest<>(Request.Method.POST, App.SERVER_API.SAVE_RESULT_URL, String.class, getGameResult().toParams(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String answer) {

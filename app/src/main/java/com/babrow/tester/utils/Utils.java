@@ -1,4 +1,4 @@
-package com.babrow.tester.utils.http;
+package com.babrow.tester.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

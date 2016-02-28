@@ -1,14 +1,30 @@
 package com.babrow.tester.activity;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.babrow.tester.R;
 import com.babrow.tester.model.GameResult;
+import com.babrow.tester.model.RamResult;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class RAMActivity extends GameActivity {
+    private static final int NUMBERS_COUNT = 25;
+    private static final int RESULTS_INTERVAL = 5;
+    private static final int MAX_NUMBER = 99;
+    private static final int MIN_NUMBER = 1;
+    private static final int SECONDS_GAME = 120;
+    private static final long MILLIS_TICK_INTERVAL = 100;
+    private GridView gridView;
+    private TextView resultsView;
 
     @Override
     protected int getLayoutId() {
@@ -17,30 +33,83 @@ public class RAMActivity extends GameActivity {
 
     @Override
     public GameResult getGameResultImpl() {
-        return null;
+        return new RamResult(NUMBERS_COUNT, RESULTS_INTERVAL);
+    }
+
+    @Override
+    public RamResult getGameResult() {
+        return (RamResult) super.getGameResult();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ram);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        gridView = (GridView) findViewById(R.id.numbers_grid);
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, R.layout.item_ram_number, R.id.number_view, generateNumbers());
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectNumber(view);
+            }
+        });
 
-        String[] data = new String[25];
+        resultsView = (TextView) findViewById(R.id.entered_numbers);
 
-        for (int i = 1; i <= 25; i++) {
-            data[i - 1] = String.valueOf(i);
+        startTimer(SECONDS_GAME * GameActivity.MILLIS_PER_SECOND, MILLIS_TICK_INTERVAL);
+    }
+
+    private Integer[] generateNumbers() {
+        Set<Integer> set = new HashSet<>(NUMBERS_COUNT);
+        Random rand = new Random();
+        int i = 0;
+        while (i < NUMBERS_COUNT) {
+            Integer number = rand.nextInt(MAX_NUMBER - MIN_NUMBER + 1) + MIN_NUMBER;
+            if (!set.contains(number)) {
+                set.add(number);
+                i++;
+            }
         }
+        return set.<Integer>toArray(new Integer[NUMBERS_COUNT]);
+    }
 
-        GridView gvMain;
-        ArrayAdapter<String> adapter;
+    private void flushSelection() {
+        for (int i = 0; i < gridView.getChildCount(); i++) {
+            View view = gridView.getChildAt(i);
+            if (view.getTag() != null) {
+                view.setTag(null);
+                view.setBackgroundDrawable(getResources().getDrawable(R.drawable.border));
+            }
+        }
+    }
 
-        adapter = new ArrayAdapter<>(this, R.layout.item_ram_number, R.id.number_view, data);
-        gvMain = (GridView) findViewById(R.id.numbers_grid);
-        gvMain.setAdapter(adapter);
+    private void selectNumber(View view) {
+        Object tag = view.getTag();
+        TextView textView = (TextView) view.findViewById(R.id.number_view);
+        Integer number = Integer.valueOf(String.valueOf(textView.getText()));
+        RamResult gameResult = getGameResult();
+
+        if (tag != null) {
+            flushSelection();
+
+            String resultsStr = String.valueOf(resultsView.getText());
+            if (resultsStr != null && !resultsStr.isEmpty()) {
+                resultsView.setText(resultsStr + ", " + number);
+            } else {
+                resultsView.setText(String.valueOf(number));
+            }
+            gameResult.addResult(new RamResult.RamResultRaw(new Date(System.currentTimeMillis()), number));
+            if (gameResult.isGameOver()) {
+                stopGame();
+            }
+        } else {
+            if (!gameResult.containResult(number)) {
+                flushSelection();
+                view.setTag(new Object());
+                view.setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red));
+            }
+        }
     }
 
 }

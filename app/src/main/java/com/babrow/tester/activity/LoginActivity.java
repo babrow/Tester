@@ -35,9 +35,8 @@ import com.android.volley.toolbox.Volley;
 import com.babrow.tester.App;
 import com.babrow.tester.R;
 import com.babrow.tester.model.Account;
+import com.babrow.tester.utils.Utils;
 import com.babrow.tester.utils.http.GenericRequest;
-import com.babrow.tester.utils.http.RequestSender;
-import com.babrow.tester.utils.http.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -308,7 +307,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public void checkUser(String email, String password) {
         String pass = Utils.md5(password);
         Account acc = new Account(email, pass);
-        GenericRequest<Account> req = new GenericRequest<>(Request.Method.POST, RequestSender.LOGIN_URL, Account.class, acc,
+        GenericRequest<Account> req = new GenericRequest<>(Request.Method.POST, App.SERVER_API.LOGIN_URL, Account.class, acc,
                 new Response.Listener<Account>() {
                     @Override
                     public void onResponse(Account account) {

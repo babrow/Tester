@@ -14,7 +14,7 @@
     <string name="tapping_description">Положите руку ладонью вниз, удерживая основание ладони на ровной поверхности. По звуковому сигналу Вы должны начать максимально быстро касаться пальцем экрана. В течение 30 секунд необходимо совершить как можно больше касаний. Касания выполняются указательным пальцем, другие пальцы остаются на ровной поверхности. Секундомер начинает отсчёт с первым касанием. Когда время истекает, касания более не принимаются. Тестирование заканчивается, когда пройдёт указанное время с начала теста</string>
     <string name="nav_traffic">Светофор тест</string>
     <string name="traffic_description">Перед вами светофор. Когда на светофоре загорится жёлтый свет – ждите, вам ничего делать не надо; когда на светофоре загорится зелёный свет – едем, как можно быстрее нажимайте на кнопку ГАЗ; когда на светофоре загорится красный свет – останавливаемся, как можно быстрее нажимайте на кнопку ТОРМОЗ</string>
-    <string name="nav_ram">Оперативка</string>
+    <string name="nav_ram">Расстановка чисел</string>
     <string name="ram_description">В течение 2 минут Вы должны записать в возрастающем порядке числа, которые видите в таблице. Будьте внимательны, старайтесь не ошибаться!</string>
 
 
@@ -37,16 +37,33 @@
     <string name="test_results_save">Сохранить</string>
     <string name="test_results_rerun">Заново</string>
 
-    <string name="test1_results_description">Количество нажатий: %s</string>
+    <string name="test1_results_description">Количество нажатий: %1$s\nКСНС: %2$s\nОценка: %3$s</string>
     <string name="test1_results_save">Количество нажатий за %s интервал</string>
+    <string name="test1_results_vh">Очень сильная</string>
+    <string name="test1_results_h">Сильно-слабая</string>
+    <string name="test1_results_n">Средняя</string>
+    <string name="test1_results_l">Слабо-сильная</string>
+    <string name="test1_results_vl">Очень слабая</string>
+
     <string name="test2_results_save_errors">Процент ошибок</string>
     <string name="test2_results_save_reaction">Среднее время реакции</string>
-    <string name="test2_results_description">Процент ошибок: %1$s\nСреднее время реакции: %2$s</string>
-    <string name="title_activity_login">Введите учетные данные</string>
+    <string name="test2_results_description">Процент ошибок: %1$s\nСреднее время реакции: %2$s\nОценка: %3$s</string>
+    <string name="test2_results_vh">Выше нормы</string>
+    <string name="test2_results_h">Высокая, в рамках нормы</string>
+    <string name="test2_results_n">Средняя, в рамках нормы</string>
+    <string name="test2_results_l">Низкая, в рамках нормы</string>
+    <string name="test2_results_vl">Ниже нормы</string>
+
+    <string name="test3_results_description">Время прохождения: %1$s\nКоличество ошибок: %2$s\nОценка: %3$s</string>
+    <string name="test3_results_save_time">Время прохождения %s интервала</string>
+    <string name="test3_results_save_errors">Количество ошибок за %s интервал</string>
+    <string name="test3_results_g">Норма</string>
+    <string name="test3_results_b">Ниже нормы</string>
 
     <string name="error_network">Отсутствует соединение с сервером</string>
 
     <!-- Strings related to login -->
+    <string name="title_activity_login">Введите учетные данные</string>
     <string name="prompt_email">Почтовый адрес</string>
     <string name="prompt_password">Пароль</string>
     <string name="action_sign_in">Войти в систему</string>

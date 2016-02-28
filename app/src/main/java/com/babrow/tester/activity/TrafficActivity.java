@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class TrafficActivity extends GameActivity {
     private static final int SECONDS_GAME = 60;
-    private static final int MILLIS_TICK_INTERVAL = 500;
+    private static final int MILLIS_TICK_INTERVAL = 100;
     private static final int MILLIS_TICK_INTERVAL_LIMIT = 2000;
 
     private ImageView trafficImg;

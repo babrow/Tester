@@ -47,7 +47,6 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/time_display_box"
             android:clickable="true" />
-
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
