@@ -11,14 +11,12 @@ import com.babrow.tester.R;
 import com.babrow.tester.model.GameResult;
 import com.babrow.tester.model.RamResult;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class RAMActivity extends GameActivity {
     private static final int NUMBERS_COUNT = 25;
-    private static final int RESULTS_INTERVAL = 5;
     private static final int MAX_NUMBER = 99;
     private static final int MIN_NUMBER = 1;
     private static final int SECONDS_GAME = 120;
@@ -33,7 +31,7 @@ public class RAMActivity extends GameActivity {
 
     @Override
     public GameResult getGameResultImpl() {
-        return new RamResult(NUMBERS_COUNT, RESULTS_INTERVAL);
+        return new RamResult(NUMBERS_COUNT);
     }
 
     @Override
@@ -79,7 +77,7 @@ public class RAMActivity extends GameActivity {
             View view = gridView.getChildAt(i);
             if (view.getTag() != null) {
                 view.setTag(null);
-                view.setBackgroundDrawable(getResources().getDrawable(R.drawable.border));
+                view.setBackgroundResource(R.drawable.border);
             }
         }
     }
@@ -99,7 +97,7 @@ public class RAMActivity extends GameActivity {
             } else {
                 resultsView.setText(String.valueOf(number));
             }
-            gameResult.addResult(new RamResult.RamResultRaw(new Date(System.currentTimeMillis()), number));
+            gameResult.addResult(number);
             if (gameResult.isGameOver()) {
                 stopGame();
             }
@@ -107,7 +105,7 @@ public class RAMActivity extends GameActivity {
             if (!gameResult.containResult(number)) {
                 flushSelection();
                 view.setTag(new Object());
-                view.setBackgroundDrawable(getResources().getDrawable(R.drawable.border_red));
+                view.setBackgroundResource(R.drawable.border_red);
             }
         }
     }

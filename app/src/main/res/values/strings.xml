@@ -54,11 +54,12 @@
     <string name="test2_results_l">Низкая, в рамках нормы</string>
     <string name="test2_results_vl">Ниже нормы</string>
 
-    <string name="test3_results_description">Время прохождения: %1$s\nКоличество ошибок: %2$s\nОценка: %3$s</string>
-    <string name="test3_results_save_time">Время прохождения %s интервала</string>
-    <string name="test3_results_save_errors">Количество ошибок за %s интервал</string>
-    <string name="test3_results_g">Норма</string>
-    <string name="test3_results_b">Ниже нормы</string>
+    <string name="test3_results_description">Количество чисел: %1$s\nКоличество ошибок: %2$s\nОценка: %3$s</string>
+    <string name="test3_results_vh">Отличное распределение</string>
+    <string name="test3_results_h">Выше среднего</string>
+    <string name="test3_results_n">Среднее</string>
+    <string name="test3_results_l">Ниже среднего</string>
+    <string name="test3_results_vl">Совсем слабое</string>
 
     <string name="error_network">Отсутствует соединение с сервером</string>
 

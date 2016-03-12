@@ -65,38 +65,59 @@ public class TappingResult implements GameResult<Integer> {
             return overallResult;
         }
 
-        float res = 0;
+        boolean bResN = true;
+        boolean bResVH = true;
+        boolean bResH = true;
+        boolean bResVL = true;
         int x1 = 0;
-        for (int i = 0; i < data.size(); i++) {
-            if (i == 0) {
-                x1 = data.get(i);
-            } else {
+        if (data.size() == 6 && data.get(0) != 0) {
+            x1 = data.get(0);
+
+            for (int i = 1; i < data.size(); i++) {
                 int x = data.get(i);
-                res = res + x - x1;
+                float div = ((float) (x - x1) / x1) * 100;
+
+                if (Math.abs(div) > 5) {
+                    bResN = false;
+                }
+                if (i < 4 && div < 0) {
+                    bResH = false;
+                }
+                if (i < 5 && div < 0) {
+                    bResVH = false;
+                }
+                if (div > 0) {
+                    bResVL = false;
+                }
             }
         }
 
         overallResult = new HashMap<>();
         if (x1 == 0) {
-            overallResult.put(RESULT_FIELD, String.format("%.2f", res));
+            overallResult.put(RESULT_FIELD, String.valueOf(-1));
             overallResult.put(RESULT_DESCR_FIELD, TEST_RESULTS_WRONG);
         } else {
-            res = res / x1;
+            int res;
+            String resStr;
 
-            String resStr = TEST_RESULTS_WRONG;
-            if (res >= 1.5) {
-                resStr = App.getContext().getResources().getString(R.string.test1_results_vh);
-            } else if (res >= 1.2 && res < 1.5) {
-                resStr = App.getContext().getResources().getString(R.string.test1_results_h);
-            } else if (res >= 0.8 && res < 1.2) {
+            if (bResN) {
+                res = 2;
                 resStr = App.getContext().getResources().getString(R.string.test1_results_n);
-            } else if (res >= 0.5 && res < 0.8) {
-                resStr = App.getContext().getResources().getString(R.string.test1_results_l);
-            } else if (res < 0.5) {
+            } else if (bResVH){
+                res = 4;
+                resStr = App.getContext().getResources().getString(R.string.test1_results_vh);
+            } else if (bResH) {
+                res = 3;
+                resStr = App.getContext().getResources().getString(R.string.test1_results_h);
+            } else if (bResVL) {
+                res = 0;
                 resStr = App.getContext().getResources().getString(R.string.test1_results_vl);
+            } else {
+                res = 1;
+                resStr = App.getContext().getResources().getString(R.string.test1_results_l);
             }
 
-            overallResult.put(RESULT_FIELD, String.format("%.2f", res));
+            overallResult.put(RESULT_FIELD, String.valueOf(res));
             overallResult.put(RESULT_DESCR_FIELD, resStr);
         }
         return overallResult;
