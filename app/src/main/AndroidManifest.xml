@@ -53,7 +53,18 @@
         </activity>
         <activity
             android:name=".activity.RAMActivity"
+            android:configChanges="keyboard|orientation|screenSize"
             android:label="@string/ram_title_activity"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.babrow.tester.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.MemoryActivity"
+            android:configChanges="keyboard|orientation|screenSize"
+            android:label="@string/memory_title_activity"
             android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

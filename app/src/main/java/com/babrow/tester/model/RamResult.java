@@ -83,6 +83,11 @@ public class RamResult implements GameResult<Integer> {
         }
 
         int res = data.size() - errorsCnt;
+        overallResult.put(App.getContext().getResources().getString(R.string.test3_results_save_numbers),
+                String.valueOf(data.size()));
+        overallResult.put(App.getContext().getResources().getString(R.string.test3_results_save_errors),
+                String.valueOf(errorsCnt));
+
         String resStr;
         if (res >= 23) {
             resStr = App.getContext().getResources().getString(R.string.test3_results_vh);

@@ -1,7 +1,12 @@
 package com.babrow.tester.utils;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 /**
  * Created by babrow on 07.02.2016.
@@ -28,5 +33,22 @@ public class Utils {
             e.printStackTrace();
         }
         return getEmptyString();
+    }
+
+    public static int generateRandomInt(Random rand, int minInt, int maxInt) {
+        return rand.nextInt(maxInt - minInt + 1) + minInt;
+    }
+
+    public static void alert(Context context) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage("Alert message to be shown");
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }

@@ -117,6 +117,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_ram:
                 testDescription = getResources().getString(R.string.ram_description);
                 break;
+            case R.id.nav_memory:
+                testDescription = getResources().getString(R.string.memory_description);
+                break;
             case R.id.nav_share:
             case R.id.nav_send:
             case R.id.nav_logout:
@@ -156,6 +159,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_ram:
                 intent = new Intent(this, RAMActivity.class);
+                break;
+            case R.id.nav_memory:
+                intent = new Intent(this, MemoryActivity.class);
                 break;
         }
         if (intent != null) {

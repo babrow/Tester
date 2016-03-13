@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.babrow.tester.R;
 import com.babrow.tester.model.GameResult;
 import com.babrow.tester.model.RamResult;
+import com.babrow.tester.utils.Utils;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -63,7 +64,7 @@ public class RAMActivity extends GameActivity {
         Random rand = new Random();
         int i = 0;
         while (i < NUMBERS_COUNT) {
-            Integer number = rand.nextInt(MAX_NUMBER - MIN_NUMBER + 1) + MIN_NUMBER;
+            Integer number = Utils.generateRandomInt(rand, MIN_NUMBER, MAX_NUMBER);
             if (!set.contains(number)) {
                 set.add(number);
                 i++;

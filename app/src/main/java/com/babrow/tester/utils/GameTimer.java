@@ -6,19 +6,31 @@ import android.util.Log;
 /**
  * Created by babrow on 14.02.2016.
  */
-public abstract class GameTimer extends CountDownTimer {
+public class GameTimer extends CountDownTimer {
     private static final float MILLIS_PER_SECOND = 1000.0f;
     private int secondsLeft = 0;
 
     public GameTimer(long millisInFuture, long countDownInterval) {
         super(millisInFuture, countDownInterval);
+
+        onCreate();
     }
 
-    public abstract void onTickHandler(long millisUntilFinished, int secondsLeft);
+    public void onCreate() {
 
-    public abstract void onSecondHandler(long millisUntilFinished, int secondsLeft);
+    }
 
-    public abstract void onFinishHandler();
+    public void onTickHandler(long millisUntilFinished, int secondsLeft) {
+
+    }
+
+    public void onSecondHandler(long millisUntilFinished, int secondsLeft) {
+
+    }
+
+    public void onFinishHandler() {
+
+    }
 
     @Override
     public void onTick(long millisUntilFinished) {

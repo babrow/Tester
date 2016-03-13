@@ -16,7 +16,8 @@
     <string name="traffic_description">Перед вами светофор. Когда на светофоре загорится жёлтый свет – ждите, вам ничего делать не надо; когда на светофоре загорится зелёный свет – едем, как можно быстрее нажимайте на кнопку ГАЗ; когда на светофоре загорится красный свет – останавливаемся, как можно быстрее нажимайте на кнопку ТОРМОЗ</string>
     <string name="nav_ram">Расстановка чисел</string>
     <string name="ram_description">В течение 2 минут Вы должны записать в возрастающем порядке числа, которые видите в таблице. Будьте внимательны, старайтесь не ошибаться!</string>
-
+    <string name="nav_memory">Оперативка</string>
+    <string name="memory_description">Сейчас вам будет предъявлен ряд чисел. Ваша задача состоит в том, чтобы в уме попарно складывать эти цифры и полученные суммы запоминать. Те цифры, которые складываются, запоминать не следует. К примеру, если это ряд: 3, 2, 4, 5. Вы попарно складываете 3 и 2, 4 и 5. Получаете соответственно 5 и 9. После того, как ряд цифр закончится, вы вписываете в появившихся клетках 5, 9. После чего вы услышите следующий ряд чисел, который будет длиннее предыдущего. Будьте внимательны, числа зачитываются только один раз</string>
 
     <string name="nav_communicate">Обратная связь</string>
     <string name="nav_communicate_share">Поделиться</string>
@@ -27,6 +28,7 @@
     <string name="tapping_title_activity">Теппинг тест</string>
     <string name="traffic_title_activity">Светофор тест</string>
     <string name="ram_title_activity">Расстановка чисел</string>
+    <string name="memory_title_activity">Оперативка</string>
 
     <string name="tapping_timer_caption">Нажмите на экран</string>
     <string name="traffic_timer_caption">60</string>
@@ -55,11 +57,20 @@
     <string name="test2_results_vl">Ниже нормы</string>
 
     <string name="test3_results_description">Количество чисел: %1$s\nКоличество ошибок: %2$s\nОценка: %3$s</string>
+    <string name="test3_results_save_numbers">Количество чисел</string>
+    <string name="test3_results_save_errors">Количество ошибок</string>
     <string name="test3_results_vh">Отличное распределение</string>
     <string name="test3_results_h">Выше среднего</string>
     <string name="test3_results_n">Среднее</string>
     <string name="test3_results_l">Ниже среднего</string>
     <string name="test3_results_vl">Совсем слабое</string>
+
+    <string name="test4_wrong_input_sums">Введите целочисленные значения</string>
+    <string name="test4_input_button_caption">Ввод</string>
+    <string name="test4_results_save_volume">Объем оперативной памяти</string>
+    <string name="test4_results_description">Объем оперативной памяти: %1$s\nОценка: %2$s</string>
+    <string name="test4_results_h">Выше нормы</string>
+    <string name="test4_results_l">Ниже нормы</string>
 
     <string name="error_network">Отсутствует соединение с сервером</string>
 
