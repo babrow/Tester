@@ -87,4 +87,6 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="test2_stop">Тормоз</string>
+    <string name="test2_go">Газ</string>
 </resources>

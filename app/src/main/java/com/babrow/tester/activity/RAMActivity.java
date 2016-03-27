@@ -1,5 +1,6 @@
 package com.babrow.tester.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -78,7 +79,8 @@ public class RAMActivity extends GameActivity {
             View view = gridView.getChildAt(i);
             if (view.getTag() != null) {
                 view.setTag(null);
-                view.setBackgroundResource(R.drawable.border);
+                //view.setBackgroundResource(R.drawable.border);
+                view.setBackgroundColor(Color.WHITE);
             }
         }
     }
@@ -106,7 +108,8 @@ public class RAMActivity extends GameActivity {
             if (!gameResult.containResult(number)) {
                 flushSelection();
                 view.setTag(new Object());
-                view.setBackgroundResource(R.drawable.border_red);
+                //view.setBackgroundResource(R.drawable.border_red);
+                view.setBackgroundColor(Color.parseColor("#33b5e5"));
             }
         }
     }
